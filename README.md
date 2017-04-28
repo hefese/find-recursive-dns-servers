@@ -3,7 +3,7 @@ Geçerli DNS sunucuları içerisinden recursive olanları bulan bir tool'dur. DN
 
 # Kullanımı
 
-> ./find-recursive-dns-servers          
+./find-recursive-dns-servers          
 
 # Not
 
