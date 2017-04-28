@@ -7,4 +7,4 @@ Geçerli DNS sunucuları içerisinden recursive olanları bulan bir tool'dur. DN
 
 # Not
 
-Dünyada mevcut 40 bin tane dns sunucu adres içerisinden recursive olanlar ayıklanmaktadır. Elinizde daha fazla sayıda DNS sunucu listesi varsa find-recursive-dns-servers script'i içerisindeki ilgili dosya adını kendinizin ki yapabilirsiniz. 
+Bu tool ile dünyada mevcut 40 bin adet dns sunucudan recursive olanların tespiti yapılmaktadır. Elinizde daha fazla sayıda DNS sunucu listesi varsa find-recursive-dns-servers script'i içerisindeki ilgili dosya adını kendinizin ki yapabilirsiniz. 
