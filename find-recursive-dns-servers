@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+# BE SURE YOUR INTERNET CONNECTION IS REGULAR
+#
+# 	Hasan Fatih Simsek | hefese@hotmail.com.tr
+#
+
+require 'timeout'
+
+
+all_valid_dns_addresses = File.read("all-valid-dns-servers.txt")
+
+# \r\n leri \n yapar
+all_valid_dns_addresses.gsub!(/\r\n?/, "\n")
+
+
+recursive_dns_addresses = File.new("recursive-dns-servers.txt", "w")
+
+
+line_number = 0
+output = ""
+
+all_valid_dns_addresses.each_line do |line|
+
+	line_number += 1
+
+	begin
+		# 1 saniyeyi geçen dig çalıştırması recursive olmayan bir dns adresini kontrol ettiğinden pas geçeriz, daha fazla 
+		# beklemeyiz. Çünkü recursive olmayan dns adresleri için beklenen cevap 15 saniyelere kadar uzayabiliyor.
+  		Timeout.timeout(2) do
+    		output = %x[dig +short test.openresolver.com TXT @#{line}]
+  	end
+	rescue Timeout::Error
+		# Bekleyen shell'i beklemeden atla
+		output = "timeout"
+	end
+	
+  	if output.include?("open-resolver-detected") then
+  		# Recursive DNS Adresini Dosyaya Yazma
+  		recursive_dns_addresses.puts line
+  		recursive_dns_addresses.fsync			# Buffer'dan diske yazmayı anlık yaptırır
+  		recursive_dns_addresses.flush			# Buffer'ı temizler.
+
+  		# Bildirim
+  		puts "Line " + line_number.to_s + " : Recursive " + "(" + line.delete("\n") + ")"
+ 	else
+ 		# Bildirim
+ 		puts "Line " + line_number.to_s + " : No recursive " + "(" + line.delete("\n") + ")"
+ 	end
+
+end
+
+all_valid_dns_addresses.close
+recursive_dns_addresses.close
+
+
+
+
+
